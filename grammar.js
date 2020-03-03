@@ -60,7 +60,7 @@ module.exports = grammar({
       /0b[01]+/, // binary
       /0x[0-9a-fA-F]+/, // hex
       /0c[0-7]+/, // octal
-      /\d{1,2}'\S+/, // arbitrary radix
+      /(?:[1-9]|[1-2][0-9]|3[0-6])'[0-9a-fA-F]+/, // arbitrary radix
       /-?[0-9_]+[/][1-9_]+/,
       /-?[0-9_]+r[1-9_]+/,
       /[+-]?\sd+[.]\sd+Inf/,
