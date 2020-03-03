@@ -25,9 +25,14 @@ module.exports = grammar({
     term: $ => seq(field('functor', $.atom),
                    "(", field('arguments', $.values), ")"),
 
-    _value: $ => choice(
+    _simple_value: $ => choice(
       $.atom, $.term, $.string, $.list, $.number, $.var,
-      $.primitive
+      $.primitive, $.char_code, $.dict
+    ),
+
+    _value: $ => choice(
+      $._simple_value,
+      $.unify_op,
     ),
 
     atom: $ => choice(
@@ -39,9 +44,15 @@ module.exports = grammar({
       /[_A-Z][a-zA-Z0-9_]*/
     ),
 
+    unify_op: $ => seq(
+      $._simple_value, "=", $._simple_value
+    ),
+
     primitive: $ => choice('true', 'false'),
 
     string: $ => /"[^"]*"/,
+
+    char_code: $ => /0'./,
 
     number: $ => choice(
       /[-+]?\d+/,
@@ -60,7 +71,21 @@ module.exports = grammar({
       optional($.values),
       optional(field('tail', seq("|", $.var))),
       "]",
-    )
+    ),
+
+    dict: $ => seq(
+      field('tag', choice($.atom, $.var)),
+      "{",
+      field('entries', optional($.dict_entries)),
+      "}"),
+
+    dict_entries: $ => seq(
+      repeat(seq($.dict_entry, ",")),
+      $.dict_entry,
+    ),
+
+    dict_entry: $ => seq(field('key', $.atom), ":", field('value', $._value)),
+
 
   }
 });

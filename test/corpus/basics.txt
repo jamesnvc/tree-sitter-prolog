@@ -59,3 +59,32 @@ foo(bar, X) :- true.
         arguments: (values
           (atom)
           (var))))))
+
+============
+Dictionaries
+============
+
+?- X = _{a: 1, b: [2,3,4], c: foo{d: 5}}.
+
+---
+
+(source_file
+  (query
+    (values
+     (unify_op
+       (var)
+       (dict
+         tag: (var)
+         entries: (dict_entries
+           (dict_entry
+             key: (atom)
+             value: (number))
+           (dict_entry
+             key: (atom)
+             value: (list (values (number) (number) (number))))
+           (dict_entry
+             key: (atom)
+             value: (dict
+                tag: (atom)
+                entries: (dict_entries
+                   (dict_entry key: (atom) value: (number)))))))))))
