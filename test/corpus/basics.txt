@@ -1,0 +1,17 @@
+===================
+Basic m-expressions
+===================
+
+foo(X, bar) :-
+  true.
+
+---
+
+(source_file
+  (predicate_definition
+    (functor)
+    (terms
+      (variable)
+      (atom))
+    (terms
+      (primitive_type))))
