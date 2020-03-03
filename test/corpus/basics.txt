@@ -88,3 +88,26 @@ Dictionaries
                 tag: (atom)
                 entries: (dict_entries
                    (dict_entry key: (atom) value: (number)))))))))))
+
+==============
+Various values
+==============
+
+?- write([1, 0'., 0' , 0',, 5]).
+
+---
+
+(source_file
+  (query
+    (values
+      (term
+        functor: (atom)
+        arguments:
+        (values
+          (list
+            (values
+              (number)
+              (char_code)
+              (char_code)
+              (char_code)
+              (number))))))))
