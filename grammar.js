@@ -6,11 +6,11 @@ module.exports = grammar({
 
     _topLevel: $ => choice(
       $.predicate_definition,
-      $.assertion,
+      $.directive,
       $.query
     ),
 
-    assertion: $ => seq(":-", $.values, "."),
+    directive: $ => seq(":-", $.values, "."),
 
     query: $ => seq("?-", $.values, "."),
 
@@ -57,8 +57,9 @@ module.exports = grammar({
 
     list: $ => seq(
       "[",
-      $.values,
-      choice(seq("|", $.var), "]"),
+      optional($.values),
+      optional(seq("|", $.var)),
+      "]",
     )
 
   }

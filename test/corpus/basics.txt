@@ -17,3 +17,45 @@ foo(X, bar) :-
     body:
     (values
       (primitive))))
+
+==============================
+Top-level directives & queries
+==============================
+
+:- module(test, []).
+
+
+foo(bar, X) :- true.
+
+?- foo(bar, 10), foo(baz, Ydf).
+
+---
+
+(source_file
+  (directive
+    (values
+      (term
+        functor: (atom)
+        arguments: (values
+          (atom)
+          (list)))))
+  (predicate_definition
+    head: (term
+      functor: (atom)
+      arguments: (values
+        (atom)
+        (var)))
+    body: (values
+      (primitive)))
+  (query
+    (values
+      (term
+        functor: (atom)
+        arguments: (values
+          (atom)
+          (number)))
+      (term
+        functor: (atom)
+        arguments: (values
+          (atom)
+          (var))))))
