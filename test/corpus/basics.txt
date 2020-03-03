@@ -9,9 +9,11 @@ foo(X, bar) :-
 
 (source_file
   (predicate_definition
-    (functor)
-    (terms
-      (variable)
-      (atom))
-    (terms
-      (primitive_type))))
+    head: (term
+        functor: (atom)
+         arguments: (values
+                       (var)
+                       (atom)))
+    body:
+    (values
+      (primitive))))

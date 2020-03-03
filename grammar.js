@@ -5,39 +5,38 @@ module.exports = grammar({
     source_file: $ => repeat($._topLevel),
 
     _topLevel: $ => choice(
+      $.predicate_definition,
       $.assertion,
-      $.query,
-      $.predicate_definition
+      $.query
     ),
 
-    assertion: $ => seq(":-", $.terms, "."),
+    assertion: $ => seq(":-", $.values, "."),
 
-    query: $ => seq("?-", $.terms, "."),
+    query: $ => seq("?-", $.values, "."),
 
     predicate_definition: $ => seq(
-      choice($.functor,
-             seq($.functor, ":-", $.terms)),
+      field('head', choice($.atom, $.term)),
+      optional(field('body', seq(":-", $.values))),
       "."),
 
-    terms: $ => seq(repeat($.term, ","),
-                    $.term),
+    values: $ => seq(repeat(seq($._value, ",")),
+                    $._value),
 
-    functor: $ => choice($.atom,
-                         seq($.atom, "(", $.terms, ")")),
+    term: $ => seq(field('functor', $.atom),
+                   "(", field('arguments', $.values), ")"),
 
-    term: $ => choice(
-      $.atom, $.functor, $.string, $.list, $.number, $.var,
+    _value: $ => choice(
+      $.atom, $.term, $.string, $.list, $.number, $.var,
       $.primitive
     ),
 
     atom: $ => choice(
-      /\p{ID_Start}\p{ID_Continue}*/,
+      /[a-z][a-zA-Z0-9_]*/,
       /'[^']*'/
     ),
 
     var: $ => choice(
-      /_\p{ID_Continue}*/,
-      /\p{Lu}\p{ID_Continue}*/
+      /[_A-Z][a-zA-Z0-9_]*/
     ),
 
     primitive: $ => choice('true', 'false'),
@@ -58,7 +57,7 @@ module.exports = grammar({
 
     list: $ => seq(
       "[",
-      $.terms,
+      $.values,
       choice(seq("|", $.var), "]"),
     )
 
