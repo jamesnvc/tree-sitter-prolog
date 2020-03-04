@@ -135,3 +135,13 @@ Module with predicate name
             (predicate_name
               name: (atom)
               arity: (arity)))))))))
+
+===================
+Strings with escape
+===================
+
+?- _ = "foo\"bar".
+
+---
+
+(source_file (query (values (unify_op (var) (string (escape_sequence))))))
