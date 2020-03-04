@@ -47,7 +47,7 @@ module.exports = grammar({
     ),
 
     predicate_name: $ => seq(field('name', $.atom),
-                             "/",
+                             '/', optional('/'), // DCG
                              field('arity', $.arity)),
 
     arity: $ => /\d+/,
