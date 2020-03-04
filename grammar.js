@@ -1,6 +1,11 @@
 module.exports = grammar({
   name: 'prolog',
 
+  extras: $ => [
+    $.comment,
+    /\s/
+  ],
+
   rules: {
     source_file: $ => repeat($._topLevel),
 
@@ -64,6 +69,15 @@ module.exports = grammar({
         $.escape_sequence
       )),
       '"'
+    ),
+
+    // [TODO] handle pldoc?
+    comment: $ => choice(
+      seq('%', /.*/),
+      seq('/*',
+          // http://stackoverflow.com/questions/13014947/regex-to-match-a-c-style-multiline-comment/36328890#36328890
+          /[^*]*\*+([^/*][^*]*\*+)*/,
+          '/')
     ),
 
     escape_sequence: $ => token.immediate(seq(

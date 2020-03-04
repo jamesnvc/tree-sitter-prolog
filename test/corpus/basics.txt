@@ -145,3 +145,40 @@ Strings with escape
 ---
 
 (source_file (query (values (unify_op (var) (string (escape_sequence))))))
+
+
+========
+Comments
+========
+
+:- module(hello, []).
+/* <module> doc comment
+
+  multi-line
+  comment
+  */
+
+foo(x).
+% Also single-line comment
+foo(y, % inline comment
+    5 % beep
+).
+
+---
+
+(source_file
+ (directive
+  (values
+   (term
+     functor: (atom)
+     arguments: (values (atom) (list)))))
+  (comment)
+  (predicate_definition head: (term functor: (atom) arguments: (values (atom))))
+  (comment)
+  (predicate_definition
+    head: (term
+       functor: (atom)
+       arguments: (values
+         (atom) (comment)
+         (number))
+    (comment))))
