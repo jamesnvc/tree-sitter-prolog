@@ -183,3 +183,52 @@ foo(y, % inline comment
          (atom) (comment)
          (number))
     (comment))))
+
+=========
+Operators
+=========
+
+:- module(hello, [foo/3, bar//1]).
+
+:- use_module(beep, [bar/3 as beep_bar, quux//3]).
+
+foo(X, Y, Z) :- Z is 1 + Y.
+
+bar(A, B, C) :- A #= B + C.
+
+---
+
+(source_file
+  (directive
+    (values
+      (term
+       functor: (atom)
+       arguments:
+        (values
+         (atom)
+         (list (values (predicate_name name: (atom) arity: (arity))
+                       (predicate_name name: (atom) arity: (arity))))))))
+  (directive
+    (values
+      (term
+       functor: (atom)
+       arguments:
+        (values
+         (atom)
+         (list (values (binary_op
+                         lhs: (predicate_name name: (atom) arity: (arity))
+                         operator: (atom)
+                         rhs: (atom))
+                       (predicate_name name: (atom) arity: (arity))))))))
+
+  (predicate_definition
+    head: (term functor: (atom) arguments: (values (var) (var) (var)))
+    body: (values
+           (binary_op lhs: (var) operator: (atom)
+             rhs: (binary_op lhs: (number) operator: (atom) rhs: (var)))))
+
+  (predicate_definition
+    head: (term functor: (atom) arguments: (values (var) (var) (var)))
+    body: (values
+           (binary_op lhs: (var) operator: (atom)
+             rhs: (binary_op lhs: (var) operator: (atom) rhs: (var))))))

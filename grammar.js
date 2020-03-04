@@ -44,13 +44,13 @@ module.exports = grammar({
     atom: $ => choice(
       /[a-z][a-zA-Z0-9_]*/,
       /'[^']*'/,
-      '!', '=', '-', '/', '+', '*'
+      token(repeat1(choice('!', '=', '-', '/', '+', '*', '#', '>', '<')))
     ),
 
     predicate_name: $ => prec(
       10,
       seq(field('name', $.atom),
-          '/', optional('/'), // DCG
+          choice('/', '//'),
           field('arity', $.arity))),
 
     arity: $ => /\d+/,
@@ -59,8 +59,8 @@ module.exports = grammar({
       /[_A-Z][a-zA-Z0-9_]*/
     ),
 
-    // just assuming all ops are left-associative for now
-    binary_op: $ => prec.left(
+    // just assuming all ops are right-associative for now
+    binary_op: $ => prec.right(
       seq(field('lhs', $._value),
           field('operator', $.atom),
           field('rhs', $._value))),
