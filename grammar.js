@@ -27,8 +27,9 @@ module.exports = grammar({
 
     _simple_value: $ => choice(
       $.atom, $.term, $.string, $.list, $.number, $.var,
-      $.primitive, $.char_code, $.dict
+      $.primitive, $.char_code, $.dict, $.predicate_name,
     ),
+
 
     _value: $ => choice(
       $._simple_value,
@@ -39,6 +40,12 @@ module.exports = grammar({
       /[a-z][a-zA-Z0-9_]*/,
       /'[^']*'/
     ),
+
+    predicate_name: $ => seq(field('name', $.atom),
+                             "/",
+                             field('arity', $.arity)),
+
+    arity: $ => /\d+/,
 
     var: $ => choice(
       /[_A-Z][a-zA-Z0-9_]*/

@@ -111,3 +111,27 @@ Various values
               (char_code)
               (char_code)
               (number))))))))
+
+==========================
+Module with predicate name
+==========================
+
+:- module(foo, [bar/3, baz/0]).
+
+---
+
+(source_file
+  (directive
+    (values
+      (term
+        functor: (atom)
+        arguments: (values
+          (atom)
+          (list
+           (values
+            (predicate_name
+              name: (atom)
+              arity: (arity))
+            (predicate_name
+              name: (atom)
+              arity: (arity)))))))))
