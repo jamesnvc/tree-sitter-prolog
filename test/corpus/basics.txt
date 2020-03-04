@@ -71,9 +71,10 @@ Dictionaries
 (source_file
   (query
     (values
-     (unify_op
-       (var)
-       (dict
+     (binary_op
+       lhs: (var)
+       operator: (atom)
+       rhs: (dict
          tag: (var)
          entries: (dict_entries
            (dict_entry
@@ -144,7 +145,7 @@ Strings with escape
 
 ---
 
-(source_file (query (values (unify_op (var) (string (escape_sequence))))))
+(source_file (query (values (binary_op lhs: (var) operator: (atom) rhs: (string (escape_sequence))))))
 
 
 ========

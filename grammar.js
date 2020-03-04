@@ -37,18 +37,21 @@ module.exports = grammar({
 
 
     _value: $ => choice(
-      $._simple_value,
-      $.unify_op,
+      prec(5, $._simple_value),
+      $.binary_op
     ),
 
     atom: $ => choice(
       /[a-z][a-zA-Z0-9_]*/,
-      /'[^']*'/
+      /'[^']*'/,
+      '!', '=', '-', '/', '+', '*'
     ),
 
-    predicate_name: $ => seq(field('name', $.atom),
-                             '/', optional('/'), // DCG
-                             field('arity', $.arity)),
+    predicate_name: $ => prec(
+      10,
+      seq(field('name', $.atom),
+          '/', optional('/'), // DCG
+          field('arity', $.arity))),
 
     arity: $ => /\d+/,
 
@@ -56,9 +59,11 @@ module.exports = grammar({
       /[_A-Z][a-zA-Z0-9_]*/
     ),
 
-    unify_op: $ => seq(
-      $._simple_value, "=", $._simple_value
-    ),
+    // just assuming all ops are left-associative for now
+    binary_op: $ => prec.left(
+      seq(field('lhs', $._value),
+          field('operator', $.atom),
+          field('rhs', $._value))),
 
     primitive: $ => choice('true', 'false'),
 
