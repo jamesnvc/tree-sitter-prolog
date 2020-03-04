@@ -32,26 +32,23 @@ module.exports = grammar({
 
     _simple_value: $ => choice(
       $.atom, $.term, $.string, $.list, $.number, $.var,
-      $.primitive, $.char_code, $.dict, $.predicate_name,
+      $.primitive, $.char_code, $.dict
     ),
 
 
     _value: $ => choice(
       prec(5, $._simple_value),
-      $.binary_op
+      $.binary_op,
     ),
 
     atom: $ => choice(
       /[a-z][a-zA-Z0-9_]*/,
       /'[^']*'/,
-      token(repeat1(choice('!', '=', '-', '/', '+', '*', '#', '>', '<')))
+      $._sym_atom
     ),
 
-    predicate_name: $ => prec(
-      10,
-      seq(field('name', $.atom),
-          choice('/', '//'),
-          field('arity', $.arity))),
+    _sym_atom: $ => token(repeat1(choice('!', '=', '-', '/', '+', '*', '#', '>',
+                                         '<', ':'))),
 
     arity: $ => /\d+/,
 
@@ -59,11 +56,72 @@ module.exports = grammar({
       /[_A-Z][a-zA-Z0-9_]*/
     ),
 
-    // just assuming all ops are right-associative for now
-    binary_op: $ => prec.right(
-      seq(field('lhs', $._value),
-          field('operator', $.atom),
+    binary_op: $ => choice(
+      prec.right(
+        -2,
+        seq(
+          field('lhs', $._value),
+          field('operator', alias(choice('^', '**'), $.atom)),
           field('rhs', $._value))),
+      prec.left(
+        -4,
+        seq(
+          field('lhs', $._value),
+          field('operator',
+                alias(choice('*', '/', '//', 'div', 'rdiv', '<<', '>>', 'mod',
+                             'rem'),
+                      $.atom)),
+          field('rhs', $._value))),
+      prec.left(
+        -5,
+        seq(
+          field('lhs', $._value),
+          field('operator',
+                alias(choice('+', '-', '/\\', '\\/', 'xor'),
+                      $.atom)),
+          field('rhs', $._value))),
+      prec.left(
+        -7,
+        seq(
+          field('lhs', $._value),
+          field('operator',
+                alias(choice('<', '=', '=..', '=@=', '\\=@=', '=:=', '=<',
+                             '==', '=\\=', '>', '>=', '@<', '@=<', '@>',
+                             '@>=', '\\=', '\\==', 'as', 'is', '>:<',
+                             ':<'),
+                      $.atom)),
+          field('rhs', $._value))),
+      prec.left(
+        -9,
+        seq(
+          field('lhs', $._value),
+          field('operator',
+                alias(':=',
+                      $.atom)),
+          field('rhs', $._value))),
+      prec.right(
+        -10,
+        seq(
+          field('lhs', $._value),
+          field('operator',
+                alias(choice('->', '*->'),
+                      $.atom)),
+          field('rhs', $._value))),
+      prec.right(
+        -11,
+        seq(
+          field('lhs', $._value),
+          field('operator',
+                alias(choice(';', '|'),
+                      $.atom)),
+          field('rhs', $._value))),
+      // General op
+      // just assuming all user-defined ops are right-associative for now
+      prec.right(
+        -8,
+        seq(field('lhs', $._value),
+            field('operator', $.atom),
+            field('rhs', $._value)))),
 
     primitive: $ => choice('true', 'false'),
 

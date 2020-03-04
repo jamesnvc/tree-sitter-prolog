@@ -130,12 +130,14 @@ Module with predicate name
           (atom)
           (list
            (values
-            (predicate_name
-              name: (atom)
-              arity: (arity))
-            (predicate_name
-              name: (atom)
-              arity: (arity)))))))))
+            (binary_op
+              lhs: (atom)
+              operator: (atom)
+              rhs: (number))
+            (binary_op
+              lhs: (atom)
+              operator: (atom)
+              rhs: (number)))))))))
 
 ===================
 Strings with escape
@@ -206,8 +208,8 @@ bar(A, B, C) :- A #= B + C.
        arguments:
         (values
          (atom)
-         (list (values (predicate_name name: (atom) arity: (arity))
-                       (predicate_name name: (atom) arity: (arity))))))))
+         (list (values (binary_op lhs: (atom) operator: (atom) rhs: (number))
+                       (binary_op lhs: (atom) operator: (atom) rhs: (number))))))))
   (directive
     (values
       (term
@@ -216,10 +218,10 @@ bar(A, B, C) :- A #= B + C.
         (values
          (atom)
          (list (values (binary_op
-                         lhs: (predicate_name name: (atom) arity: (arity))
+                         lhs: (binary_op lhs: (atom) operator: (atom) rhs: (number))
                          operator: (atom)
                          rhs: (atom))
-                       (predicate_name name: (atom) arity: (arity))))))))
+                       (binary_op lhs: (atom) operator: (atom) rhs: (number))))))))
 
   (predicate_definition
     head: (term functor: (atom) arguments: (values (var) (var) (var)))
@@ -232,3 +234,20 @@ bar(A, B, C) :- A #= B + C.
     body: (values
            (binary_op lhs: (var) operator: (atom)
              rhs: (binary_op lhs: (var) operator: (atom) rhs: (var))))))
+
+=========================
+Module names with slashes
+=========================
+
+:- use_module(foo/bar, []).
+
+---
+
+(source_file
+  (directive
+   (values
+    (term
+      functor: (atom)
+      arguments: (values
+        (binary_op lhs: (atom) operator: (atom) rhs: (atom))
+        (list))))))
