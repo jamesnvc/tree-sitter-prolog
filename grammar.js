@@ -62,64 +62,22 @@ module.exports = grammar({
     ),
 
     binary_op: $ => choice(
-      prec.right(
-        -2,
-        seq(
-          field('lhs', $._value),
-          field('operator', alias(choice('^', '**'), $.atom)),
-          field('rhs', $._value))),
-      prec.left(
-        -4,
-        seq(
-          field('lhs', $._value),
-          field('operator',
-                alias(choice('*', '/', '//', 'div', 'rdiv', '<<', '>>', 'mod',
-                             'rem'),
-                      $.atom)),
-          field('rhs', $._value))),
-      prec.left(
-        -5,
-        seq(
-          field('lhs', $._value),
-          field('operator',
-                alias(choice('+', '-', '/\\', '\\/', 'xor'),
-                      $.atom)),
-          field('rhs', $._value))),
-      prec.left(
-        -7,
-        seq(
-          field('lhs', $._value),
-          field('operator',
-                alias(choice('<', '=', '=..', '=@=', '\\=@=', '=:=', '=<',
-                             '==', '=\\=', '>', '>=', '@<', '@=<', '@>',
-                             '@>=', '\\=', '\\==', 'as', 'is', '>:<',
-                             ':<'),
-                      $.atom)),
-          field('rhs', $._value))),
-      prec.left(
-        -9,
-        seq(
-          field('lhs', $._value),
-          field('operator',
-                alias(':=',
-                      $.atom)),
-          field('rhs', $._value))),
-      prec.right(
-        -10,
-        seq(
-          field('lhs', $._value),
-          field('operator',
-                alias(choice('->', '*->'),
-                      $.atom)),
-          field('rhs', $._value))),
-      prec.right(
-        -11,
-        seq(
-          field('lhs', $._value),
-          field('operator',
-                alias(choice(';', '|'),
-                      $.atom)),
-          field('rhs', $._value))),
+      ...[
+        [-2, 'right', ['^', '**']],
+        [-4, 'left', ['*', '/', '//', 'div', 'rdiv', '<<', '>>', 'mod', 'rem']],
+        [-5, 'left', ['+', '-', '/\\', '\\/', 'xor']],
+        [-7, 'left', ['<', '=', '=..', '=@=', '\\=@=', '=:=', '=<', '==', '=\\=',
+                      '>', '>=', '@<', '@=<', '@>', '@>=', '\\=', '\\==', 'as',
+                      'is', '>:<', ':<']],
+        [-9, 'left', [':=']],
+        [-10, 'right', ['->', '*->']],
+        [-11, 'right', [';', '|']]
+      ].map(([p, dir, ops]) =>
+            prec[dir](
+              p,
+              seq(field('lhs', $._value),
+                  field('operator', alias(choice(...ops), $.atom)),
+                  field('rhs', $._value)))),
       // General op
       // just assuming all user-defined ops are right-associative for now
       prec.right(
