@@ -32,7 +32,7 @@ module.exports = grammar({
 
     _simple_value: $ => choice(
       $.atom, $.term, $.string, $.list, $.number, $.var,
-      $.primitive, $.char_code, $.dict
+      $.primitive, $.char_code, $.dict, $.codes
     ),
 
 
@@ -132,6 +132,15 @@ module.exports = grammar({
         $.escape_sequence
       )),
       '"'
+    ),
+
+    codes: $ => seq(
+      '`',
+      repeat(choice(
+        token.immediate(/[^`\\\n]+|\\\r?\n/),
+        $.escape_sequence
+      )),
+      '`'
     ),
 
     // [TODO] handle pldoc?

@@ -254,3 +254,15 @@ Module names with slashes
       arguments: (values
         (binary_op lhs: (atom) operator: (atom) rhs: (atom))
         (list))))))
+
+============
+Code strings
+============
+
+foo(`bar`).
+
+---
+
+(source_file
+  (predicate_definition
+    head: (term functor: (atom) arguments: (values (codes)))))
