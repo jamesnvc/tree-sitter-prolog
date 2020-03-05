@@ -291,5 +291,17 @@ Dict get
     (values
       (binary_op
         lhs: (var) operator: (atom)
-        rhs: (dict))))
+        rhs:
+        (dict tag: (atom) entries: (dict_entries (dict_entry key: (atom) value: (string)))))
+      (binary_op lhs: (var) operator: (atom) rhs: (dict_get (var) (atom)))))
+
+  (query
+    (values
+      (binary_op
+        lhs: (var) operator: (atom)
+        rhs:
+        (dict tag: (atom) entries: (dict_entries (dict_entry key: (atom) value: (list)))))
+      (binary_op lhs: (var) operator: (atom) rhs: (atom))
+      (binary_op lhs: (var) operator: (atom) rhs: (dict_get (var) (var)))))
+
 )
