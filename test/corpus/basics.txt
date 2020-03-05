@@ -155,11 +155,13 @@ Comments
 ========
 
 :- module(hello, []).
-/* <module> doc comment
+/** <module> doc comment
 
   multi-line
   comment
-  */
+*/
+
+/* foo */
 
 foo(x).
 % Also single-line comment
@@ -175,6 +177,7 @@ foo(y, % inline comment
    (term
      functor: (atom)
      arguments: (values (atom) (list)))))
+  (comment)
   (comment)
   (predicate_definition head: (term functor: (atom) arguments: (values (atom))))
   (comment)
