@@ -32,9 +32,14 @@ module.exports = grammar({
 
     _simple_value: $ => choice(
       $.atom, $.term, $.string, $.list, $.number, $.var,
-      $.primitive, $.char_code, $.dict, $.codes
+      $.primitive, $.char_code, $.dict, $.codes, $.dict_get,
     ),
 
+    dict_get: $ => prec(10, seq(
+      choice($.var, $.dict),
+      '.',
+      choice($.atom, $.var)
+    )),
 
     _value: $ => choice(
       prec(5, $._simple_value),

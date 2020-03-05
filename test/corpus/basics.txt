@@ -266,3 +266,30 @@ foo(`bar`).
 (source_file
   (predicate_definition
     head: (term functor: (atom) arguments: (values (codes)))))
+
+========
+Dict get
+========
+
+?- X = _{a: 1}.a.
+?- D = #{a: "foo"}, X = D.a.
+?- D = foo{a: []}, K = a, X = D.K.
+
+---
+
+(source_file
+  (query
+    (values
+      (binary_op
+        lhs: (var) operator: (atom)
+        rhs:
+        (dict_get
+          (dict tag: (var) entries: (dict_entries (dict_entry key: (atom) value: (number))))
+          (atom)))))
+
+  (query
+    (values
+      (binary_op
+        lhs: (var) operator: (atom)
+        rhs: (dict))))
+)
