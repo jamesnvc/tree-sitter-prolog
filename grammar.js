@@ -32,16 +32,33 @@ module.exports = grammar({
 
     _simple_value: $ => choice(
       $.atom, $.term, $.string, $.list, $.number, $.var,
-      $.primitive, $.char_code, $.dict, $.codes, $.dict_get,
+      $.primitive, $.char_code, $.dict, $.codes,
     ),
 
-    dict_get: $ => prec(10, seq(
+    dict_get: $ => seq(
       choice($.var, $.dict),
-      '.',
-      choice($.atom, $.var)
-    )),
+      choice(
+        // Need to inline atom & var definitions so we can make them
+        // immediate
+        alias(token.immediate(
+          seq('.',
+              choice(
+                //$.atom,
+                /[a-z][a-zA-Z0-9_]*/,
+                /'[^']*'/,
+                token(repeat1(choice('!', '=', '-', '/', '+', '*', '#', '>',
+                                     '<', ':'))),
+              ))), $.atom),
+        alias(
+          token.immediate(
+            seq('.',
+                // $.var
+                /[_A-Z][a-zA-Z0-9_]*/
+               )
+          ), $.var))),
 
     _value: $ => choice(
+      prec(6, $.dict_get),
       prec(5, $._simple_value),
       $.binary_op,
     ),
