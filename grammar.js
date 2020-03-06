@@ -87,7 +87,7 @@ module.exports = grammar({
           ), $.var))),
 
     _value: $ => choice(
-      prec(6, $.dict_operator),
+      $.dict_operator,
       $._simple_value,
       $.curly_braced,
       $.parenthesized,
