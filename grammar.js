@@ -92,6 +92,7 @@ module.exports = grammar({
       $.curly_braced,
       $.parenthesized,
       $.binary_op,
+      $.unary_op
     ),
 
     curly_braced: $ => prec(4, seq('{', optional($.values), '}')),
@@ -112,6 +113,9 @@ module.exports = grammar({
     var: $ => choice(
       /[_A-Z][a-zA-Z0-9_]*/
     ),
+
+    unary_op: $ => prec(7, seq(field('operator', $.atom),
+                               field('rhs', $._value))),
 
     binary_op: $ => choice(
       ...[

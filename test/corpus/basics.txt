@@ -457,3 +457,14 @@ Lambdas with empty closures
                 rhs: (binary_op lhs: (var) operator: (atom) rhs: (var))))))
           (list (values (number) (number) (number)))
           (var))))))
+
+===============
+Unary operators
+===============
+
+?- \+ foo.
+
+---
+
+(source_file
+  (query (values (unary_op operator: (atom) rhs: (atom)))))
