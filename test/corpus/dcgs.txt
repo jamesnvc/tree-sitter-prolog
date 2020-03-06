@@ -1,0 +1,49 @@
+============
+Simplest DCG
+============
+
+foo --> [].
+
+---
+
+(source_file
+  (dcg_definition head: (atom)
+    body: (values (list))))
+
+==================
+DCG with arguments
+==================
+
+foo(X, Y) --> [X], "+", [Y].
+
+---
+
+(source_file
+  (dcg_definition
+    head: (term functor: (atom)
+                arguments: (values (var) (var)))
+    body: (values
+            (list (values (var)))
+            (string)
+            (list (values (var))))))
+
+================================
+DCG with curly-braced statements
+================================
+
+bar(X) --> [Y], { X is Y + 1 }, [X].
+
+---
+
+(source_file
+  (dcg_definition
+    head: (term functor: (atom)
+                arguments: (values (var)))
+    body: (values
+            (list (values (var)))
+            (curly_braced
+              (values
+                (binary_op lhs: (var) operator: (atom)
+                  rhs: (binary_op lhs: (var) operator: (atom)
+                         rhs: (number)))))
+            (list (values (var))))))

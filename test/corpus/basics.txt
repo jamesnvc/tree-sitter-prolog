@@ -360,8 +360,10 @@ Lambdas
         functor: (atom)
         arguments:
         (values
-          (lambda arguments: (values (var) (var))
-            body: (primitive))
+          (binary_op
+            lhs: (list (values (var) (var)))
+            operator: (atom)
+            rhs: (primitive))
           (list (values (number) (number) (number)))
           (var))))))
 
@@ -381,10 +383,13 @@ Lambdas with closures
         functor: (atom)
         arguments:
         (values
-          (lambda
-            closure_vars: (vars (var))
-            arguments: (values (var) (var))
-            body:
+          (binary_op
+            lhs: (binary_op
+              lhs: (curly_braced (values (var)))
+              operator: (atom)
+              rhs: (list (values (var) (var))))
+            operator: (atom)
+            rhs:
             (values
              (binary_op lhs: (var) operator: (atom)
                rhs: (binary_op lhs: (var) operator: (atom) rhs: (var)))))
@@ -407,10 +412,13 @@ Lambdas with multi-var closures
         functor: (atom)
         arguments:
         (values
-          (lambda
-            closure_vars: (vars (var) (var))
-            arguments: (values (var) (var))
-            body:
+          (binary_op
+            lhs: (binary_op
+                   lhs: (curly_braced (values (var) (var)))
+                   operator: (atom)
+                   rhs: (list (values (var) (var))))
+            operator: (atom)
+            rhs:
             (values
              (binary_op lhs: (var) operator: (atom)
                rhs: (binary_op lhs: (var) operator: (atom) rhs: (var)))))
@@ -433,9 +441,13 @@ Lambdas with empty closures
         functor: (atom)
         arguments:
         (values
-          (lambda
-            arguments: (values (var) (var))
-            body:
+          (binary_op
+            lhs: (binary_op
+                   lhs: (curly_braced)
+                   operator: (atom)
+                   rhs: (list (values (var) (var))))
+            operator: (atom)
+            rhs:
             (values
              (binary_op lhs: (var) operator: (atom)
                rhs: (binary_op lhs: (var) operator: (atom) rhs: (var)))))

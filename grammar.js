@@ -11,6 +11,7 @@ module.exports = grammar({
 
     _topLevel: $ => choice(
       $.predicate_definition,
+      $.dcg_definition,
       $.directive,
       $.query
     ),
@@ -24,6 +25,13 @@ module.exports = grammar({
       optional(field('body', seq(":-", $.values))),
       "."),
 
+    dcg_definition: $ => seq(
+      field('head', choice($.atom, $.term)),
+      '-->',
+      field('body', $.values),
+      '.'
+    ),
+
     values: $ => seq(repeat(seq($._value, ",")),
                     $._value),
 
@@ -32,10 +40,10 @@ module.exports = grammar({
                    field('arguments', $.values),
                    ")"),
 
-    _simple_value: $ => choice(
+    _simple_value: $ => prec(6, choice(
       $.atom, $.term, $.string, $.list, $.number, $.var,
       $.primitive, $.char_code, $.dict, $.codes,
-    ),
+    )),
 
     dict_op_term: $ =>
       seq(
@@ -79,11 +87,13 @@ module.exports = grammar({
 
     _value: $ => choice(
       prec(6, $.dict_operator),
-      prec(5, $._simple_value),
-      $.lambda,
+      $._simple_value,
+      $.curly_braced,
       seq('(', $.values, ')'),
       $.binary_op,
     ),
+
+    curly_braced: $ => prec(4, seq('{', optional($.values), '}')),
 
     atom: $ => choice(
       /[a-z][a-zA-Z0-9_]*/,
@@ -197,16 +207,7 @@ module.exports = grammar({
 
     dict_entry: $ => seq(field('key', $.atom), ":", field('value', $._value)),
 
-    vars: $ => seq($.var, repeat(seq(',', $.var))),
+  },
 
-    lambda: $ => prec(5, seq(
-      optional(seq(
-        field('closure_vars',
-              seq('{', optional($.vars), '}')),
-        '/')),
-      field('arguments',
-            seq('[', $.values, ']')),
-      '>>', field('body', $._value)
-    ))
-  }
+
 });
