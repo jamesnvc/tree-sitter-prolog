@@ -28,18 +28,38 @@ module.exports = grammar({
                     $._value),
 
     term: $ => seq(field('functor', $.atom),
-                   "(", field('arguments', $.values), ")"),
+                   token.immediate("("),
+                   field('arguments', $.values),
+                   ")"),
 
     _simple_value: $ => choice(
       $.atom, $.term, $.string, $.list, $.number, $.var,
       $.primitive, $.char_code, $.dict, $.codes,
     ),
 
-    dict_get: $ => seq(
+    dict_op_term: $ =>
+      seq(
+        field(
+          'functor',
+          alias(token.immediate(
+            seq('.',
+                choice(
+                  //$.atom,
+                  /[a-z][a-zA-Z0-9_]*/,
+                  /'[^']*'/,
+                  token(repeat1(choice('!', '=', '-', '/', '+', '*', '#', '>',
+                                       '<', ':')))),
+                '(')),
+                $.atom)),
+        field('arguments', $.values),
+        ')'),
+
+    dict_operator: $ => seq(
       choice($.var, $.dict),
       choice(
         // Need to inline atom & var definitions so we can make them
         // immediate
+        alias($.dict_op_term, $.term),
         alias(token.immediate(
           seq('.',
               choice(
@@ -58,7 +78,7 @@ module.exports = grammar({
           ), $.var))),
 
     _value: $ => choice(
-      prec(6, $.dict_get),
+      prec(6, $.dict_operator),
       prec(5, $._simple_value),
       $.binary_op,
     ),

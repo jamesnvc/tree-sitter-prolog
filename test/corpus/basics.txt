@@ -283,7 +283,7 @@ Dict get
       (binary_op
         lhs: (var) operator: (atom)
         rhs:
-        (dict_get
+        (dict_operator
           (dict tag: (var) entries: (dict_entries (dict_entry key: (atom) value: (number))))
           (atom)))))
 
@@ -293,7 +293,7 @@ Dict get
         lhs: (var) operator: (atom)
         rhs:
         (dict tag: (atom) entries: (dict_entries (dict_entry key: (atom) value: (string)))))
-      (binary_op lhs: (var) operator: (atom) rhs: (dict_get (var) (atom)))))
+      (binary_op lhs: (var) operator: (atom) rhs: (dict_operator (var) (atom)))))
 
   (query
     (values
@@ -302,6 +302,29 @@ Dict get
         rhs:
         (dict tag: (atom) entries: (dict_entries (dict_entry key: (atom) value: (list)))))
       (binary_op lhs: (var) operator: (atom) rhs: (atom))
-      (binary_op lhs: (var) operator: (atom) rhs: (dict_get (var) (var)))))
+      (binary_op lhs: (var) operator: (atom) rhs: (dict_operator (var) (var)))))
 
 )
+
+==============
+Dict Operators
+==============
+
+?- X = _{a: 1}.put(k, [1, 2]).
+
+---
+
+(source_file
+  (query
+    (values
+      (binary_op lhs: (var)
+        operator: (atom)
+        rhs: (dict_operator
+          (dict tag: (var)
+            entries: (dict_entries
+              (dict_entry key: (atom) value: (number))))
+           (term functor: (atom)
+             arguments:
+             (values
+              (atom)
+              (list (values (number) (number))))))))))
