@@ -90,11 +90,13 @@ module.exports = grammar({
       prec(6, $.dict_operator),
       $._simple_value,
       $.curly_braced,
-      seq('(', $.values, ')'),
+      $.parenthesized,
       $.binary_op,
     ),
 
     curly_braced: $ => prec(4, seq('{', optional($.values), '}')),
+
+    parenthesized: $ => seq('(', $.values, ')'),
 
     atom: $ => choice(
       /[a-z][a-zA-Z0-9_]*/,

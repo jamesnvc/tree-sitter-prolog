@@ -344,7 +344,7 @@ Parenthesized Values
      (binary_op
        lhs: (var)
        operator: (atom)
-       rhs: (values (atom) (atom) (atom))))))
+       rhs: (parenthesized (values (atom) (atom) (atom)))))))
 
 =======
 Lambdas
@@ -391,9 +391,10 @@ Lambdas with closures
               rhs: (list (values (var) (var))))
             operator: (atom)
             rhs:
-            (values
-             (binary_op lhs: (var) operator: (atom)
-               rhs: (binary_op lhs: (var) operator: (atom) rhs: (var)))))
+            (parenthesized
+             (values
+              (binary_op lhs: (var) operator: (atom)
+                rhs: (binary_op lhs: (var) operator: (atom) rhs: (var))))))
           (list (values (number) (number) (number)))
           (var))))))
 
@@ -420,9 +421,10 @@ Lambdas with multi-var closures
                    rhs: (list (values (var) (var))))
             operator: (atom)
             rhs:
-            (values
-             (binary_op lhs: (var) operator: (atom)
-               rhs: (binary_op lhs: (var) operator: (atom) rhs: (var)))))
+            (parenthesized
+             (values
+              (binary_op lhs: (var) operator: (atom)
+                rhs: (binary_op lhs: (var) operator: (atom) rhs: (var))))))
           (list (values (number) (number) (number)))
           (var))))))
 
@@ -449,8 +451,9 @@ Lambdas with empty closures
                    rhs: (list (values (var) (var))))
             operator: (atom)
             rhs:
-            (values
-             (binary_op lhs: (var) operator: (atom)
-               rhs: (binary_op lhs: (var) operator: (atom) rhs: (var)))))
+            (parenthesized
+             (values
+              (binary_op lhs: (var) operator: (atom)
+                rhs: (binary_op lhs: (var) operator: (atom) rhs: (var))))))
           (list (values (number) (number) (number)))
           (var))))))
