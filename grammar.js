@@ -174,7 +174,10 @@ module.exports = grammar({
       )
     )),
 
-    char_code: $ => /0'./,
+    char_code: $ => seq(
+      "0'", choice(token.immediate(/./),
+                   alias($.escape_sequence, "."))
+    ),
 
     number: $ => choice(
       /[-+]?\d+/,

@@ -94,7 +94,7 @@ Dictionaries
 Various values
 ==============
 
-?- write([1, 0'., 0' , 0',, 5]).
+?- write([1, 0'., 0' , 0',, 0'\n, 5]).
 
 ---
 
@@ -108,6 +108,7 @@ Various values
           (list
             (values
               (number)
+              (char_code)
               (char_code)
               (char_code)
               (char_code)
