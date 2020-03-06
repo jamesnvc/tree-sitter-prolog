@@ -28,7 +28,7 @@ module.exports = grammar({
     dcg_definition: $ => seq(
       field('head', choice($.atom, $.term)),
       optional(seq(',', field('semicontext', $.list))),
-      '-->',
+      choice('-->', '-->>'),
       field('body', $.values),
       '.'
     ),
@@ -36,10 +36,12 @@ module.exports = grammar({
     values: $ => seq(repeat(seq($._value, ",")),
                     $._value),
 
-    term: $ => seq(field('functor', $.atom),
-                   token.immediate("("),
-                   field('arguments', $.values),
-                   ")"),
+    term: $ => seq(
+      // optional(seq(field('module', $.atom), token.immediate(':'))),
+      field('functor', $.atom),
+      token.immediate("("),
+      field('arguments', $.values),
+      ")"),
 
     _simple_value: $ => prec(6, choice(
       $.atom, $.term, $.string, $.list, $.number, $.var,
@@ -106,7 +108,7 @@ module.exports = grammar({
     ),
 
     _sym_atom: $ => token(repeat1(choice('!', '=', '-', '/', '+', '*', '#', '>',
-                                         '<', ':', '\\'))),
+                                         '<', ':', '\\', '^'))),
 
     arity: $ => /\d+/,
 

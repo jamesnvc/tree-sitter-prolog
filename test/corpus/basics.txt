@@ -468,3 +468,18 @@ Unary operators
 
 (source_file
   (query (values (unary_op operator: (atom) rhs: (atom)))))
+
+============================
+Terms with module qualifiers
+============================
+
+user:term_expansion(foo, bar, baz).
+
+---
+
+(source_file (predicate_definition
+  head:
+    (term
+      module: (atom)
+      functor: (atom)
+      arguments: (values (atom) (atom) (atom)))))
