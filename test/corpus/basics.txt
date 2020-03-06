@@ -344,3 +344,100 @@ Parenthesized Values
        lhs: (var)
        operator: (atom)
        rhs: (values (atom) (atom) (atom))))))
+
+=======
+Lambdas
+=======
+
+?- maplist([X,X]>>true, [1,2,3], L).
+
+---
+
+(source_file
+  (query
+    (values
+      (term
+        functor: (atom)
+        arguments:
+        (values
+          (lambda arguments: (values (var) (var))
+            body: (primitive))
+          (list (values (number) (number) (number)))
+          (var))))))
+
+=====================
+Lambdas with closures
+=====================
+
+?- Y = 3, maplist({Y}/[X,Z]>>(Z is X + Y), [1,2,3], L).
+
+---
+
+(source_file
+  (query
+    (values
+      (binary_op lhs: (var) operator: (atom) rhs: (number))
+      (term
+        functor: (atom)
+        arguments:
+        (values
+          (lambda
+            closure_vars: (vars (var))
+            arguments: (values (var) (var))
+            body:
+            (values
+             (binary_op lhs: (var) operator: (atom)
+               rhs: (binary_op lhs: (var) operator: (atom) rhs: (var)))))
+          (list (values (number) (number) (number)))
+          (var))))))
+
+===============================
+Lambdas with multi-var closures
+===============================
+
+?- Y = 3, maplist({Y,A}/[X,Z]>>(Z is X + Y), [1,2,3], L).
+
+---
+
+(source_file
+  (query
+    (values
+      (binary_op lhs: (var) operator: (atom) rhs: (number))
+      (term
+        functor: (atom)
+        arguments:
+        (values
+          (lambda
+            closure_vars: (vars (var) (var))
+            arguments: (values (var) (var))
+            body:
+            (values
+             (binary_op lhs: (var) operator: (atom)
+               rhs: (binary_op lhs: (var) operator: (atom) rhs: (var)))))
+          (list (values (number) (number) (number)))
+          (var))))))
+
+===========================
+Lambdas with empty closures
+===========================
+
+?- Y = 3, maplist({}/[X,Z]>>(Z is X + Y), [1,2,3], L).
+
+---
+
+(source_file
+  (query
+    (values
+      (binary_op lhs: (var) operator: (atom) rhs: (number))
+      (term
+        functor: (atom)
+        arguments:
+        (values
+          (lambda
+            arguments: (values (var) (var))
+            body:
+            (values
+             (binary_op lhs: (var) operator: (atom)
+               rhs: (binary_op lhs: (var) operator: (atom) rhs: (var)))))
+          (list (values (number) (number) (number)))
+          (var))))))

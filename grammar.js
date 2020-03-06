@@ -80,6 +80,7 @@ module.exports = grammar({
     _value: $ => choice(
       prec(6, $.dict_operator),
       prec(5, $._simple_value),
+      $.lambda,
       seq('(', $.values, ')'),
       $.binary_op,
     ),
@@ -196,6 +197,16 @@ module.exports = grammar({
 
     dict_entry: $ => seq(field('key', $.atom), ":", field('value', $._value)),
 
+    vars: $ => seq($.var, repeat(seq(',', $.var))),
 
+    lambda: $ => prec(5, seq(
+      optional(seq(
+        field('closure_vars',
+              seq('{', optional($.vars), '}')),
+        '/')),
+      field('arguments',
+            seq('[', $.values, ']')),
+      '>>', field('body', $._value)
+    ))
   }
 });
