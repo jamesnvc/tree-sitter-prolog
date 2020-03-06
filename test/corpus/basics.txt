@@ -328,3 +328,19 @@ Dict Operators
              (values
               (atom)
               (list (values (number) (number))))))))))
+
+====================
+Parenthesized Values
+====================
+
+?- X = (a, b, c).
+
+---
+
+(source_file
+  (query
+    (values
+     (binary_op
+       lhs: (var)
+       operator: (atom)
+       rhs: (values (atom) (atom) (atom))))))

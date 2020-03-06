@@ -80,6 +80,7 @@ module.exports = grammar({
     _value: $ => choice(
       prec(6, $.dict_operator),
       prec(5, $._simple_value),
+      seq('(', $.values, ')'),
       $.binary_op,
     ),
 
