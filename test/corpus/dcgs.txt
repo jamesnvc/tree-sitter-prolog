@@ -47,3 +47,22 @@ bar(X) --> [Y], { X is Y + 1 }, [X].
                   rhs: (binary_op lhs: (var) operator: (atom)
                          rhs: (number)))))
             (list (values (var))))))
+
+=====================
+DCG with semi-context
+=====================
+
+foo(5, X), [Foo, Bar] -->
+  [Foo], [X], [Bar].
+
+---
+
+(source_file
+  (dcg_definition
+     head: (term functor: (atom)
+                 arguments: (values (number) (var)))
+     semicontext: (list (values (var) (var)))
+     body: (values
+       (list (values (var)))
+       (list (values (var)))
+       (list (values (var))))))
