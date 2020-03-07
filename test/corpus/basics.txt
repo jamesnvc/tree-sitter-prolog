@@ -554,3 +554,14 @@ Code Strings with %-sign in them
                 arguments: (values (var)))
           (codes)
           (var))))))
+
+=================
+Atoms with escape
+=================
+
+?- X = 'stuff\'s cool'.
+
+---
+
+(source_file
+  (query (values (binary_op lhs: (var) operator: (atom) rhs: (atom)))))

@@ -59,7 +59,7 @@ module.exports = grammar({
                 choice(
                   //$.atom,
                   /[a-z][a-zA-Z0-9_]*/,
-                  /'[^']*'/,
+                  /'([^'\\]|(\\.))*'/,
                   token(repeat1(choice('!', '=', '-', '/', '+', '*', '#', '>',
                                        '<', ':')))),
                 '(')),
@@ -78,7 +78,7 @@ module.exports = grammar({
               choice(
                 //$.atom,
                 /[a-z][a-zA-Z0-9_]*/,
-                /'[^']*'/,
+                /'([^'\\]|(\\.))*'/,
                 token(repeat1(choice('!', '=', '-', '/', '+', '*', '#', '>',
                                      '<', ':'))),
               ))), $.atom),
@@ -105,7 +105,7 @@ module.exports = grammar({
 
     atom: $ => choice(
       /[a-z][a-zA-Z0-9_]*/,
-      /'[^']*'/,
+      /'([^'\\]|(\\.))*'/,
       $._sym_atom
     ),
 
