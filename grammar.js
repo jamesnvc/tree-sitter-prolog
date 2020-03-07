@@ -116,14 +116,27 @@ module.exports = grammar({
       /[_A-Z][a-zA-Z0-9_]*/
     ),
 
-    unary_op: $ => prec(7, seq(field('operator', $.atom),
-                               field('rhs', $._value))),
+    unary_op: $ => prec.left(choice(
+      ...[
+        [-1, ['$']],
+        [-2, ['+', '-', '\\']],
+        [-9, ['\\+']],
+        [-11, ['dynamic', 'discontiguous', 'initialization',
+               'meta_predicate', 'module_transparent', 'multifile',
+               'public', 'thread_local', 'thread_initialization', 'volatile']]
+      ].map(([p, cs]) =>
+            prec(p, seq(field('operator', alias(choice(...cs), $.atom)),
+                        field('rhs', $._value)))),
+      prec(-2, seq(field('operator', $.atom),
+                   field('rhs', $._value)))
+    )),
 
     binary_op: $ => choice(
       ...[
         [-2, 'right', ['^', '**']],
         [-4, 'left', ['*', '/', '//', 'div', 'rdiv', '<<', '>>', 'mod', 'rem']],
         [-5, 'left', ['+', '-', '/\\', '\\/', 'xor']],
+        [-6, 'right', [':']],
         [-7, 'left', ['<', '=', '=..', '=@=', '\\=@=', '=:=', '=<', '==', '=\\=',
                       '>', '>=', '@<', '@=<', '@>', '@>=', '\\=', '\\==', 'as',
                       'is', '>:<', ':<']],
