@@ -565,3 +565,22 @@ Atoms with escape
 
 (source_file
   (query (values (binary_op lhs: (var) operator: (atom) rhs: (atom)))))
+
+======================
+Numbers with groupings
+======================
+
+?- [1_000_000, 0x8f_00, 0b1111_0000, 13'12_34, -12r333_333].
+
+---
+
+(source_file
+  (query
+    (values
+      (list
+       (values
+        (number)
+        (number)
+        (number)
+        (number)
+        (number))))))
