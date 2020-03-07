@@ -566,6 +566,20 @@ Atoms with escape
 (source_file
   (query (values (binary_op lhs: (var) operator: (atom) rhs: (atom)))))
 
+===========
+.. operator
+===========
+
+?- [X, Y] ins 0..100.
+
+(source_file
+ (query
+  (values
+   (binary_op
+     lhs: (list (values (var) (var)))
+     operator: (atom)
+     rhs: (binary_op lhs: (number) operator: (atom) rhs: (number))))))
+
 ======================
 Numbers with groupings
 ======================
