@@ -490,8 +490,8 @@ user:term_expansion(foo, bar, baz).
 ---
 
 (source_file (predicate_definition
+  module: (atom)
   head:
     (term
-      module: (atom)
       functor: (atom)
       arguments: (values (atom) (atom) (atom)))))

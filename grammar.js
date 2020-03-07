@@ -21,6 +21,7 @@ module.exports = grammar({
     query: $ => seq("?-", $.values, "."),
 
     predicate_definition: $ => seq(
+      optional(seq(field('module', $.atom), ':')),
       field('head', choice($.atom, $.term)),
       optional(field('body', seq(":-", $.values))),
       "."),
