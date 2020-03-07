@@ -221,7 +221,7 @@ module.exports = grammar({
 
     dict: $ => seq(
       field('tag', choice($.atom, $.var)),
-      "{",
+      token.immediate("{"),
       field('entries', optional($.dict_entries)),
       "}"),
 
