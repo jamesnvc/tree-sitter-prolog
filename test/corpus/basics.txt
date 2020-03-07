@@ -598,3 +598,19 @@ Numbers with groupings
         (number)
         (number)
         (number))))))
+
+============
+Symbol atoms
+============
+
+:- meta_predicate http2_request(+, +, +, 2).
+
+---
+
+(source_file
+  (directive
+    (values
+      (unary_op
+        operator: (atom)
+        rhs: (term functor: (atom)
+               arguments: (values (atom) (atom) (atom) (number)))))))
