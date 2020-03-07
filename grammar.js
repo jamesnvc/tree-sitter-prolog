@@ -161,23 +161,9 @@ module.exports = grammar({
 
     primitive: $ => choice('true', 'false'),
 
-    string: $ => seq(
-      '"',
-      repeat(choice(
-        token.immediate(/[^"\\\n"]+|\\\\r?\n/),
-        $.escape_sequence
-      )),
-      '"'
-    ),
+    string: $ => /"(([^"\\])|(\\([^xu0-7]|[0-7]{1,3}|x[0-9a-fA-F]{2}|u[0-9a-fA-F]{4})))*"/,
 
-    codes: $ => seq(
-      '`',
-      repeat(choice(
-        token.immediate(/[^`\\\n]+|\\\r?\n/),
-        $.escape_sequence
-      )),
-      '`'
-    ),
+    codes: $ => /`(([^`\\])|(\\([^xu0-7]|[0-7]{1,3}|x[0-9a-fA-F]{2}|u[0-9a-fA-F]{4})))*`/,
 
     // [TODO] handle pldoc?
     comment: $ => token(prec(1, choice(
@@ -192,8 +178,7 @@ module.exports = grammar({
         /[^xu0-7]/,
         /[0-7]{1,3}/,
         /x[0-9a-fA-F]{2}/,
-        /u[0-9a-fA-F]{4}/,
-        /u{[0-9a-fA-F]+}/
+        /u[0-9a-fA-F]{4}/
       )
     )),
 

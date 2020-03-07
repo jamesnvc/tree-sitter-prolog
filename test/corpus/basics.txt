@@ -148,7 +148,7 @@ Strings with escape
 
 ---
 
-(source_file (query (values (binary_op lhs: (var) operator: (atom) rhs: (string (escape_sequence))))))
+(source_file (query (values (binary_op lhs: (var) operator: (atom) rhs: (string)))))
 
 
 ========
@@ -517,3 +517,40 @@ Unary operator with DCG name argument
                      operator: (atom)
                      rhs: (number)))))))
 
+===========================
+Strings with %-sign in them
+===========================
+
+?- format_time(string(Ds), "%", Date).
+
+---
+
+(source_file
+  (query
+    (values
+      (term
+        functor: (atom)
+        arguments: (values
+          (term functor: (atom)
+                arguments: (values (var)))
+          (string)
+          (var))))))
+
+================================
+Code Strings with %-sign in them
+================================
+
+?- format_time(string(Ds), `%`, Date).
+
+---
+
+(source_file
+  (query
+    (values
+      (term
+        functor: (atom)
+        arguments: (values
+          (term functor: (atom)
+                arguments: (values (var)))
+          (codes)
+          (var))))))
