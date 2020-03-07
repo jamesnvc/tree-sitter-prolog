@@ -66,3 +66,29 @@ foo(5, X), [Foo, Bar] -->
        (list (values (var)))
        (list (values (var)))
        (list (values (var))))))
+
+===============================
+Module-qualified DCG definition
+===============================
+
+prolog:message(foo(bar, X)) -->
+  { beep(bar) },
+  [ [ 'foo ~w' ]-["aoeu"] ].
+
+---
+
+(source_file
+  (dcg_definition
+    module: (atom)
+    head: (term functor: (atom)
+                arguments: (values
+                            (term functor: (atom)
+                                  arguments: (values (atom) (var)))))
+    body: (values
+            (curly_braced (values (term functor: (atom) arguments: (values (atom)))))
+            (list
+              (values
+               (binary_op
+                 lhs: (list (values (atom)))
+                 operator: (atom)
+                 rhs: (list (values (string)))))))))

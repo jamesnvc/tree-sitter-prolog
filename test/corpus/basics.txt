@@ -495,3 +495,25 @@ user:term_expansion(foo, bar, baz).
     (term
       functor: (atom)
       arguments: (values (atom) (atom) (atom)))))
+
+=====================================
+Unary operator with DCG name argument
+=====================================
+
+:- multifile prolog:message//1.
+
+---
+
+(source_file
+  (directive
+    (values
+     (unary_op
+       operator: (atom)
+       rhs: (binary_op
+              lhs: (atom)
+              operator: (atom)
+              rhs: (binary_op
+                     lhs: (atom)
+                     operator: (atom)
+                     rhs: (number)))))))
+
