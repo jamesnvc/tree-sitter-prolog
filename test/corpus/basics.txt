@@ -782,6 +782,28 @@ test(foo, [ true(Bar == 'baz' )]) :- beep(Bar).
                              rhs: (atom))))))))
   body: (values (term functor: (atom) arguments: (values (var))))))
 
+======================
+Findall with qualifier
+======================
+
+?- findall(X, Y^(x(X, Y)), Xs).
+
+---
+
+(source_file
+ (query
+  (values
+    (term functor: (atom)
+      arguments:
+      (values
+        (var)
+        (binary_op
+          lhs: (var)
+          operator: (atom)
+          rhs: (parenthesized (values
+                 (term functor: (atom)
+                   arguments: (values (var) (var))))))
+        (var))))))
 
 ===========
 Quasiquotes
