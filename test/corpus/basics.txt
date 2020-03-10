@@ -118,7 +118,7 @@ Various values
 Module with predicate name
 ==========================
 
-:- module(foo, [bar/3, baz/0]).
+:- module(foo, [bar/3, baz/0, (',')/3, (;)/3]).
 
 ---
 
@@ -137,6 +137,14 @@ Module with predicate name
               rhs: (number))
             (binary_op
               lhs: (atom)
+              operator: (atom)
+              rhs: (number))
+            (binary_op
+              lhs: (parenthesized (values (atom)))
+              operator: (atom)
+              rhs: (number))
+            (binary_op
+              lhs: (parenthesized (values (atom)))
               operator: (atom)
               rhs: (number)))))))))
 
@@ -622,7 +630,7 @@ Numbers with groupings
 Symbol atoms
 ============
 
-:- meta_predicate http2_request(+, +, +, 2).
+:- meta_predicate http2_request(+, -, ?, 2).
 
 ---
 
