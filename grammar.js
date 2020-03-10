@@ -47,7 +47,7 @@ module.exports = grammar({
 
     _simple_value: $ => prec(6, choice(
       $.atom, $.term, $.string, $.list, $.number, $.var,
-      $.primitive, $.char_code, $.dict, $.codes,
+      $.char_code, $.dict, $.codes,
     )),
 
     dict_op_term: $ =>
@@ -159,8 +159,6 @@ module.exports = grammar({
         seq(field('lhs', $._value),
             field('operator', $.atom),
             field('rhs', $._value)))),
-
-    primitive: $ => choice('true', 'false'),
 
     string: $ => /"(([^"\\])|(\\([^xu0-7]|[0-7]{1,3}|x[0-9a-fA-F]{2}|u[0-9a-fA-F]{4})))*"/,
 

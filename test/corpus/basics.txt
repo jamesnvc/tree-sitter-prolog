@@ -16,7 +16,7 @@ foo(X, bar) :-
                        (atom)))
     body:
     (values
-      (primitive))))
+      (atom))))
 
 ==============================
 Top-level directives & queries
@@ -46,7 +46,7 @@ foo(bar, X) :- true.
         (atom)
         (var)))
     body: (values
-      (primitive)))
+      (atom)))
   (query
     (values
       (term
@@ -372,7 +372,7 @@ Lambdas
           (binary_op
             lhs: (list (values (var) (var)))
             operator: (atom)
-            rhs: (primitive))
+            rhs: (atom))
           (list (values (number) (number) (number)))
           (var))))))
 
@@ -759,3 +759,25 @@ Defining Ops
    (term
      functor: (atom)
      arguments: (values (number) (atom) (list (values (atom))))))))
+
+===========
+Test Syntax
+===========
+
+test(foo, [ true(Bar == 'baz' )]) :- beep(Bar).
+
+---
+
+(source_file
+ (predicate_definition
+  head: (term functor: (atom)
+          arguments:
+          (values
+            (atom)
+            (list
+             (values (term functor: (atom)
+                       arguments: (values
+                           (binary_op lhs: (var)
+                             operator: (atom)
+                             rhs: (atom))))))))
+  body: (values (term functor: (atom) arguments: (values (var))))))
