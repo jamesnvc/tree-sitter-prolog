@@ -781,3 +781,30 @@ test(foo, [ true(Bar == 'baz' )]) :- beep(Bar).
                              operator: (atom)
                              rhs: (atom))))))))
   body: (values (term functor: (atom) arguments: (values (var))))))
+
+
+===========
+Quasiquotes
+===========
+
+beep :-
+  include_js(script(type('text/javascript')),
+    {|javascript(S, V)||
+      let stuff = "hello world";
+      console.log("state", S, V);
+    |}, 123).
+
+---
+
+(source_file
+ (predicate_definition
+  head: (atom)
+  body:
+  (values
+   (term
+     functor: (atom)
+     arguments:
+      (values
+        (term functor: (atom) arguments: (values (atom)))))
+   (quasiquote syntax: (term) quotation: (string))
+   (number))))
