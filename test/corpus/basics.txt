@@ -744,3 +744,18 @@ Chaining Dict Get
    (dict_operator
      (dict_operator (var) (atom))
      (atom)))))
+
+============
+Defining Ops
+============
+
+:- op(900, fy, [$]).
+
+---
+
+(source_file
+ (directive
+  (values
+   (term
+     functor: (atom)
+     arguments: (values (number) (atom) (list (values (atom))))))))
