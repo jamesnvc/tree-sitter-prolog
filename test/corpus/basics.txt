@@ -615,3 +615,43 @@ Symbol atoms
         operator: (atom)
         rhs: (term functor: (atom)
                arguments: (values (atom) (atom) (atom) (number)))))))
+
+=================
+More Symbol Atoms
+=================
+
+?- sort(2, @>=, Counts, FreqOrdered_).
+
+---
+
+(source_file
+ (query
+  (values
+    (term
+      functor: (atom)
+      arguments: (values (number) (atom) (var) (var))))))
+
+===
+Hm?
+===
+
+pkcs7(BSize, Data, PaddedData) :-
+    length(Data, L),
+    Pad #= BSize - (L mod BSize),
+    replicate(Pad, Pad, Padding),
+    append(Data, Padding, PaddedData), !.
+
+---
+
+(source_file
+  (predicate_definition
+    head: (term functor: (atom) arguments: (values (var) (var) (var)))
+    body:
+    (values
+     (term functor: (atom) arguments: (values (var) (var)))
+     (binary_op lhs: (var) operator: (atom)
+       rhs: (binary_op lhs: (var) operator: (atom)
+             rhs: (parenthesized (values (binary_op lhs: (var) operator: (atom) rhs: (var))))))
+     (term functor: (atom) arguments: (values (var) (var) (var)))
+     (term functor: (atom) arguments: (values (var) (var) (var)))
+     (atom))))
