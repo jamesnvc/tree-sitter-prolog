@@ -721,3 +721,18 @@ int_bytes_le(I, B) :-
       (var)
       (binary_op lhs: (number) operator: (atom) rhs: (number))
       (binary_op lhs: (var) operator: (atom) rhs: (var)))))))
+
+=================
+Chaining Dict Get
+=================
+
+?- Foo.bar.baz.
+
+---
+
+(source_file
+ (query
+  (values
+   (dict_operator
+     (dict_operator (var) (atom))
+     (atom)))))

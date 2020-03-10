@@ -69,7 +69,7 @@ module.exports = grammar({
         ')'),
 
     dict_operator: $ => seq(
-      choice($.var, $.dict),
+      choice($.var, $.dict, $.dict_operator),
       choice(
         // Need to inline atom & var definitions so we can make them
         // immediate
