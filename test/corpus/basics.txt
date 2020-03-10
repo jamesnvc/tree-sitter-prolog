@@ -673,3 +673,51 @@ pkcs7(BSize, Data, PaddedData) :-
      (term functor: (atom) arguments: (values (var) (var) (var)))
      (term functor: (atom) arguments: (values (var) (var) (var)))
      (atom))))
+
+====================
+Complex Definition 1
+====================
+
+int_bytes_le(I, B) :-
+    foldl([E, P0-I0, P-I]>>(
+              E in 0..255,
+              I #= I0 + E * 256^P0,
+              P #= P0 + 1),
+         B, 0-0, _-I).
+
+---
+
+(source_file
+ (predicate_definition
+   head: (term functor: (atom) arguments: (values (var) (var)))
+   body:
+    (values
+     (term functor: (atom)
+      arguments:
+      (values
+       (binary_op
+         lhs: (list
+               (values
+                (var)
+                (binary_op lhs: (var) operator: (atom) rhs: (var))
+                (binary_op lhs: (var) operator: (atom) rhs: (var))))
+         operator: (atom)
+         rhs: (parenthesized
+          (values
+            (binary_op lhs: (var)
+              operator: (atom)
+              rhs: (binary_op lhs: (number) operator: (atom)
+                              rhs: (number)))
+            (binary_op lhs: (var)
+              operator: (atom)
+              rhs:
+               (binary_op lhs: (var) operator: (atom)
+                    rhs: (binary_op lhs: (var) operator: (atom)
+                           rhs: (binary_op lhs: (number)
+                                   operator: (atom)
+                                   rhs: (var)))))
+           (binary_op lhs: (var) operator: (atom)
+             rhs: (binary_op lhs: (var) operator: (atom) rhs: (number))))))
+      (var)
+      (binary_op lhs: (number) operator: (atom) rhs: (number))
+      (binary_op lhs: (var) operator: (atom) rhs: (var)))))))
