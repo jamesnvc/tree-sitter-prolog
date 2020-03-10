@@ -584,7 +584,7 @@ Atoms with escape
 Numbers with groupings
 ======================
 
-?- [1_000_000, 0x8f_00, 0b1111_0000, 13'12_34, -12r333_333].
+?- [1_000_000, 0x8f_00, 0b1111_0000, 13'12_34, -12r333_333, 1e9].
 
 ---
 
@@ -593,6 +593,7 @@ Numbers with groupings
     (values
       (list
        (values
+        (number)
         (number)
         (number)
         (number)
