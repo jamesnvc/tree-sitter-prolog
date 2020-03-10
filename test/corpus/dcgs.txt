@@ -67,6 +67,31 @@ foo(5, X), [Foo, Bar] -->
        (list (values (var)))
        (list (values (var))))))
 
+=======================
+DCG with semi-context 2
+=======================
+
+foo(5, X), Baz -->
+  [Foo], [X], [Bar], { Baz #= Foo + Bar }.
+
+---
+
+(source_file
+  (dcg_definition
+     head: (term functor: (atom)
+                 arguments: (values (number) (var)))
+     semicontext: (var)
+     body: (values
+       (list (values (var)))
+       (list (values (var)))
+       (list (values (var)))
+       (curly_braced
+         (values
+           (binary_op
+             lhs: (var)
+             operator: (atom)
+             rhs: (binary_op lhs: (var) operator: (atom) rhs: (var))))))))
+
 ===============================
 Module-qualified DCG definition
 ===============================

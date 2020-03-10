@@ -29,7 +29,7 @@ module.exports = grammar({
     dcg_definition: $ => seq(
       optional(seq(field('module', $.atom), ':')),
       field('head', choice($.atom, $.term)),
-      optional(seq(',', field('semicontext', $.list))),
+      optional(seq(',', field('semicontext', $._value))),
       choice('-->', '-->>'),
       field('body', $.values),
       '.'
