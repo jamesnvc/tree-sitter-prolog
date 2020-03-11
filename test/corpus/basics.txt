@@ -657,6 +657,23 @@ More Symbol Atoms
       functor: (atom)
       arguments: (values (number) (atom) (var) (var))))))
 
+======================
+Even More Symbol Atoms
+======================
+
+:- http_handler(root(.), todo_handler, []).
+
+---
+
+(source_file
+  (directive
+    (values
+      (term functor: (atom)
+        arguments: (values
+          (term functor: (atom) arguments: (values (atom)))
+          (atom)
+          (list))))))
+
 ===
 Hm?
 ===
