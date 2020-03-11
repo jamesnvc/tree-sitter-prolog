@@ -52,8 +52,8 @@ module.exports = grammar({
 
     quasiquote: $ => seq(
       '{|', field('syntax', choice($.atom, $.term)), '||',
-      field('quotation', alias(/([^|]|(\|\}))*/, $.string)),
-      '|}'),
+      field('quotation', alias(token.immediate(/([^|]|(\|[^}]))*/), $.string)),
+      token.immediate('|}')),
 
     dict_op_term: $ =>
       seq(
