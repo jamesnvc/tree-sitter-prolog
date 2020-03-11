@@ -828,5 +828,7 @@ beep :-
      arguments:
       (values
         (term functor: (atom) arguments: (values (atom)))))
-   (quasiquote syntax: (term) quotation: (string))
+   (quasiquote
+     syntax: (term functor: (atom) arguments: (values (var) (var)))
+     quotation: (string))
    (number))))
