@@ -872,3 +872,20 @@ login_handler(_Request) :-
      arguments: (values
        (list (values (term functor: (atom) arguments: (values (atom)))))
        (unary_op operator: (atom) rhs: (atom)))))))
+
+===============================
+Handle dict op in tail position
+===============================
+
+?- Meals = [NewMeal|State0.meals].
+
+---
+
+(source_file
+ (query
+  (values
+   (binary_op
+     lhs: (var)
+     operator: (atom)
+     rhs: (list (values (var))
+             tail: (dict_operator (var) (atom)))))))

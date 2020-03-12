@@ -208,7 +208,7 @@ module.exports = grammar({
     list: $ => seq(
       "[",
       optional($.values),
-      optional(field('tail', seq("|", $.var))),
+      optional(field('tail', seq("|", $._value))),
       "]",
     ),
 
