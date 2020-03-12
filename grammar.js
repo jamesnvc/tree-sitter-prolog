@@ -47,7 +47,8 @@ module.exports = grammar({
 
     _simple_value: $ => prec(6, choice(
       $.atom, $.term, $.string, $.list, $.number, $.var,
-      $.char_code, $.dict, $.codes, $.quasiquote
+      $.char_code, $.dict, $.codes, $.quasiquote,
+      alias('.', $.atom),
     )),
 
     quasiquote: $ => seq(
