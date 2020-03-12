@@ -128,7 +128,7 @@ module.exports = grammar({
     unary_op: $ => prec.left(choice(
       ...[
         // [-1, ['$']],
-        //[-2, ['+', '-', '\\']],
+        [-2, [/*'+', '-', */ '\\']],
         [-9, ['\\+']],
         [-11, ['dynamic', 'discontiguous', 'initialization',
                'meta_predicate', 'module_transparent', 'multifile',
