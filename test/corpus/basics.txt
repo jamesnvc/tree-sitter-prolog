@@ -851,3 +851,24 @@ beep :-
           syntax: (term functor: (atom) arguments: (values (var) (var)))
           quotation: (string))
         (number))))))
+
+=====================
+Backslash as unary op
+=====================
+
+login_handler(_Request) :-
+    reply_html_page(
+        [title('Test Server')],
+        \login_body).
+
+---
+
+(source_file
+ (predicate_definition
+  head: (term functor: (atom) arguments: (values (var)))
+  body:
+  (values
+   (term functor: (atom)
+     arguments: (values
+       (list (values (term functor: (atom) arguments: (values (atom)))))
+       (unary_op operator: (atom) rhs: (atom)))))))
