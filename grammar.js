@@ -118,6 +118,7 @@ module.exports = grammar({
       '..'
     ),
 
+    // [XXX] make this immediate, or just turn into regex?
     _sym_atom: $ => token(repeat1(choice('!', '=', '-', '/', '+', '*', '#', '>',
                                          '<', ':', ';', '?', '\\', '^', '@', '$'))),
 
